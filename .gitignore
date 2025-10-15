@@ -1,0 +1,58 @@
+# Unity .gitignore
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+[Uu]serSettings/
+
+# Asset store tools
+Assets/AssetStoreTools*
+
+# IDEs and editors
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Crash / build reports
+sysinfo.txt
+
+# Mobile builds
+*.apk
+*.aab
+*.obb
+*.gradle
+.gradle/
+*.keystore
+*.plist
+*.xcuserstate
+DerivedData/
+
+# Unity packages and debug
+*.unitypackage
+*.mdb
+*.pdb
+
+# Mac system files
+.DS_Store
+
+# Other
+*.swp
+*.tmp
+*.bak
+*.old
+*.orig
