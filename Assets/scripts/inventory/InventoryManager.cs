@@ -34,14 +34,14 @@ public class InventoryManager : MonoBehaviour
             
             //add index to slot UI script
             InventorySlotUI slotUI = newSlot.GetComponent<InventorySlotUI>();
-            slotUI.slotIndex = i + 2; // +2 to account for existing slots
+            slotUI.slotIndex = i; 
             slotUI.inventoryManager = this;
 
             //Add click listener to button
             Button slotButton = newSlot.GetComponent<Button>();
             if(slotButton != null)
             {
-                int capturedIndex = i + 2; // Capture the current index for the lambda to avoid closing issue
+                int capturedIndex = i + 1; // Capture the current index for the lambda to avoid closing issue
                 slotButton.onClick.AddListener(() => OnSlotClicked(capturedIndex));
             }
             
