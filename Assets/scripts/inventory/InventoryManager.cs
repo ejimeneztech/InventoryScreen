@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     public int addSlots = 3; // Total slots in inventory
 
     [Header("UI Slots")]
-    public List<Image> inventorySlots; // Drag your slot images here
+    public List<Image> inventorySlots; // Drag your slot images here; need to get rid of this and just ref the imag of slotPrefab
     public Sprite emptySlotSprite; // Placeholder for empty
 
     public int selectedSlotIndex = -1;
@@ -26,25 +26,35 @@ public class InventoryManager : MonoBehaviour
         inventoryScreen.SetActive(isOpen);
 
         //Generate slots automatically
-        for (int i = 0; i < addSlots; i++)
+        for (int i = 0; i <= addSlots; i++)
         {
             // Add the Image component of the new slot to the list
             GameObject newSlot = Instantiate(slotPrefab, slotParent);
-            inventorySlots.Add(newSlot.GetComponent<Image>()); 
-            
+
+            Image slotImage = newSlot.GetComponent<Image>();
+            if (slotImage == null) slotImage = newSlot.AddComponent<Image>();
+
+            slotImage.sprite = emptySlotSprite;
+            slotImage.color = Color.white;
+            inventorySlots.Add(newSlot.GetComponent<Image>());
+
             //add index to slot UI script
             InventorySlotUI slotUI = newSlot.GetComponent<InventorySlotUI>();
+            if(slotUI != null)
+            {
+                slotUI.slotIndex = i; 
 
-            slotUI.slotIndex = i; 
+                slotUI.inventoryManager = this;
+            }
 
-            slotUI.inventoryManager = this;
+            
 
             //Add click listener to button
             Button slotButton = newSlot.GetComponent<Button>();
             if(slotButton != null)
             {
 
-                int capturedIndex = i + 1; // Capture the current index for the lambda to avoid closing issue
+                int capturedIndex = i; // Capture the current index for the lambda to avoid closing issue
 
                 slotButton.onClick.AddListener(() => OnSlotClicked(capturedIndex));
             }
@@ -63,23 +73,22 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void CollectItem(Sprite itemIcon)
+    public void AddItem(Item item)
     {
-
-
 
         //Add item icon to first empty slot
         foreach (Image slot in inventorySlots)
         {
+            Debug.Log("Checking slot: " + slot.name + ", current sprite: " + slot.sprite);
             if (slot.sprite == emptySlotSprite || slot.sprite == null) // Slot is empty
             {
-                slot.sprite = itemIcon;
+                slot.sprite = item.icon;
                 slot.color = Color.white;
-                Debug.Log("Placed item in slot!");
-                break;
+                Debug.Log($"Placed {item.name}in slot: {slot.name}!");
+                return; // Exit after adding the item
             }
         }
-
+        Debug.Log("Inventory Full! Cannot add item: " + item.name);
     }
 
   
