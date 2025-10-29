@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2982019074377647270}
   - component: {fileID: 1473836909996830095}
   - component: {fileID: 6806405265363146714}
-  - component: {fileID: 6010043888550919396}
   - component: {fileID: 4143837938123911131}
   m_Layer: 5
   m_Name: slot
@@ -67,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d27e27eb950d8422b8d1bda6b767625c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -77,21 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6010043888550919396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6793254500029809809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c3dc4b0d3f34982bc389f9edf499df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slotIndex: 0
-  inventoryManager: {fileID: 0}
-  contextMenuPanel: {fileID: 0}
 --- !u!114 &4143837938123911131
 MonoBehaviour:
   m_ObjectHideFlags: 0

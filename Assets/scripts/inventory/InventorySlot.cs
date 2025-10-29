@@ -5,28 +5,25 @@ using UnityEngine.UI;
 public class InventorySlotUI : MonoBehaviour
 {
     public int slotIndex;
-    public InventoryManager inventoryManager;
-    public GameObject contextMenuPanel; //panel with Use/Move/Discard buttons
+
+    [Header("Sub Menu")]
+    public GameObject subMenu;
+    
+    private RectTransform rectTransform;
+
 
     void Start()
     {
-        if (contextMenuPanel != null)
-        {
-            contextMenuPanel.SetActive(false);
-        }
+        //subMenu = GameObject.Find("Sub Menu").gameObject;
+        rectTransform = GetComponent<RectTransform>();
+        subMenu.SetActive(false); 
     }
 
-    public void OnSlotClicked()
-    {
-        contextMenuPanel.SetActive(true);
-        contextMenuPanel.transform.position = transform.position;
 
-        inventoryManager.selectedSlotIndex = slotIndex;
-
-    }
+    
 
     public void ClosePanel()
    {
-       contextMenuPanel.SetActive(false);
+       subMenu.SetActive(false);
    }
 }

@@ -21,9 +21,14 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryScreen;
     private bool isOpen = false; // Inventory Grid State
 
+    [Header("Sub Menu")]
+    public GameObject subMenuPanel;
+
+
     void Start()
     {
         inventoryScreen.SetActive(isOpen);
+        subMenuPanel.SetActive(false);
 
         //Generate slots automatically
         for (int i = 0; i <= addSlots; i++)
@@ -42,9 +47,8 @@ public class InventoryManager : MonoBehaviour
             InventorySlotUI slotUI = newSlot.GetComponent<InventorySlotUI>();
             if(slotUI != null)
             {
-                slotUI.slotIndex = i; 
-
-                slotUI.inventoryManager = this;
+                slotUI.slotIndex = i;
+                //slotUI.subMenu = subMenuPanel; 
             }
 
             
@@ -119,6 +123,28 @@ public class InventoryManager : MonoBehaviour
     public void OnSlotClicked(int slotIndex)
     {
         selectedSlotIndex = slotIndex;
-        Debug.Log($"Slot {slotIndex} clicked");
+
+        //Get RectTransform of clicked slot
+        RectTransform slotRect = inventorySlots[slotIndex].GetComponent<RectTransform>();
+
+        //Get the RectTransform of the subMenuPanel
+        RectTransform menuRect = subMenuPanel.GetComponent<RectTransform>();
+
+        // Keep world space relationship
+        //subMenuPanel.transform.SetParent(slotRect.parent, worldPositionStays: true);
+
+        //Position subMenuPanel next to clicked slot
+        //1. Get slot position in world space
+        Vector3 slotWorldPos = slotRect.position;
+        //2. Set the menu position to the right of the slot
+        Vector3 menuPos = slotWorldPos + new Vector3(slotRect.rect.width / 2 + menuRect.rect.width / 2, 0, 0); 
+        subMenuPanel.transform.position = menuPos;
+        
+        
+        subMenuPanel.SetActive(true);
     }
+
+
+
+
 }
