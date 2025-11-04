@@ -45,25 +45,37 @@ public class InventoryManager : MonoBehaviour
 
             //add index to slot UI script
             InventorySlotUI slotUI = newSlot.GetComponent<InventorySlotUI>();
-            if(slotUI != null)
+            if (slotUI != null)
             {
                 slotUI.slotIndex = i;
                 //slotUI.subMenu = subMenuPanel; 
             }
 
-            
+
 
             //Add click listener to button
             Button slotButton = newSlot.GetComponent<Button>();
-            if(slotButton != null)
+            if (slotButton != null)
             {
 
                 int capturedIndex = i; // Capture the current index for the lambda to avoid closing issue
 
                 slotButton.onClick.AddListener(() => OnSlotClicked(capturedIndex));
             }
-            
+
+
+
+
         }
+        
+            //Add Click Listener to sub menu use button
+            Button useButton = subMenuPanel.transform.Find("Use").GetComponent<Button>();
+            useButton.onClick.AddListener(() => UseItem(selectedSlotIndex));
+            
+            
+            //Add Click Listener to sub menu close button
+            Button closeButton = subMenuPanel.transform.Find("Close").GetComponent<Button>();
+            closeButton.onClick.AddListener(() => Close());
     }
 
 
@@ -95,15 +107,27 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Inventory Full! Cannot add item: " + item.name);
     }
 
-  
+
 
     //Use Item
-    public void UseItem()
+    public void UseItem(int slotIndex)
     {
-        if(selectedSlotIndex >= 0 && selectedSlotIndex < inventorySlots.Count)
+        // Basic safety check to prevent errors. Also, check if item can be used.
+        if (slotIndex < 0 || slotIndex >= inventorySlots.Count)
         {
-            Debug.Log($"Using item in slot {selectedSlotIndex}");
+            Debug.LogWarning($"Invalid slot index: {slotIndex}");
+            return;
         }
+
+        Debug.Log($"Using item in slot {slotIndex}");
+        subMenuPanel.SetActive(false);
+
+    }
+
+    ///Close Sub Menu
+    public void Close()
+    {
+        subMenuPanel.SetActive(false);
     }
 
     //Move Item
@@ -124,24 +148,9 @@ public class InventoryManager : MonoBehaviour
     {
         selectedSlotIndex = slotIndex;
 
-        //Get RectTransform of clicked slot
-        RectTransform slotRect = inventorySlots[slotIndex].GetComponent<RectTransform>();
-
-        //Get the RectTransform of the subMenuPanel
-        RectTransform menuRect = subMenuPanel.GetComponent<RectTransform>();
-
-        // Keep world space relationship
-        //subMenuPanel.transform.SetParent(slotRect.parent, worldPositionStays: true);
-
-        //Position subMenuPanel next to clicked slot
-        //1. Get slot position in world space
-        Vector3 slotWorldPos = slotRect.position;
-        //2. Set the menu position to the right of the slot
-        Vector3 menuPos = slotWorldPos + new Vector3(slotRect.rect.width / 2 + menuRect.rect.width / 2, 0, 0); 
-        subMenuPanel.transform.position = menuPos;
-        
-        
         subMenuPanel.SetActive(true);
+        
+        Debug.Log($"Slot {slotIndex} clicked.");
     }
 
 
