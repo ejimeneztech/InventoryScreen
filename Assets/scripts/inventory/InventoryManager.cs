@@ -72,6 +72,10 @@ public class InventoryManager : MonoBehaviour
             Button useButton = subMenuPanel.transform.Find("Use").GetComponent<Button>();
             useButton.onClick.AddListener(() => UseItem(selectedSlotIndex));
             
+            //Add Click Listener to Discard button
+            Button discardButton = subMenuPanel.transform.Find("Close").GetComponent<Button>();
+            discardButton.onClick.AddListener(() => DiscardItem(selectedSlotIndex));
+            
             
             //Add Click Listener to sub menu close button
             Button closeButton = subMenuPanel.transform.Find("Close").GetComponent<Button>();
@@ -120,8 +124,15 @@ public class InventoryManager : MonoBehaviour
         }
 
         Debug.Log($"Using item in slot {slotIndex}");
+        inventorySlots[slotIndex].sprite = emptySlotSprite;
         subMenuPanel.SetActive(false);
 
+    }
+
+    public void DiscardItem(int slotIndex)
+    {
+        Debug.Log($"Discarding item in slot {slotIndex}");
+        inventorySlots[slotIndex].sprite = emptySlotSprite; 
     }
 
     ///Close Sub Menu
