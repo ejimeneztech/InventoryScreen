@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     public int addSlots = 3; // Total slots in inventory
 
     [Header("UI Slots")]
-    public List<Image> inventorySlots; // Drag your slot images here; need to get rid of this and just ref the imag of slotPrefab
+    private List<Image> inventorySlots = new List<Image>(); //set to private to ensure the generated slots are run-time only (not using the original prefab)
     public Sprite emptySlotSprite; // Placeholder for empty
 
     public int selectedSlotIndex = -1;
@@ -27,6 +27,9 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
+        //runtime starts clean
+        inventorySlots = new List<Image>();
+
         inventoryScreen.SetActive(isOpen);
         subMenuPanel.SetActive(false);
 
@@ -73,7 +76,7 @@ public class InventoryManager : MonoBehaviour
             useButton.onClick.AddListener(() => UseItem(selectedSlotIndex));
             
             //Add Click Listener to Discard button
-            Button discardButton = subMenuPanel.transform.Find("Close").GetComponent<Button>();
+            Button discardButton = subMenuPanel.transform.Find("Discard").GetComponent<Button>();
             discardButton.onClick.AddListener(() => DiscardItem(selectedSlotIndex));
             
             
@@ -145,14 +148,6 @@ public class InventoryManager : MonoBehaviour
     public void MoveItem()
     {
         Debug.Log("Move item - not implemented yet");
-    }
-
-    //Discard Item
-    public void DiscardItem()
-    {
-        Debug.Log($"Discarding item in slot {selectedSlotIndex}");
-        inventorySlots[selectedSlotIndex].sprite = emptySlotSprite;
-
     }
     
     public void OnSlotClicked(int slotIndex)
